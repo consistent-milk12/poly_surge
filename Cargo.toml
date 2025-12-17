@@ -1,0 +1,64 @@
+[package]
+name = "poly_surge"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92.0"
+authors = ["consistent-milk12"]
+description = "Somewhat novel, fast incremental polytope surgery in Rust. Add and remove halfspaces, 11x-1200x faster than the standard 'just reconstruct it' approach."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/YOUR_USERNAME/poly_surge"
+documentation = "https://docs.rs/poly_surge"
+keywords = ["geometry", "polytope", "convex", "halfspace", "incremental"]
+categories = ["algorithms", "mathematics", "graphics"]
+readme = "README.md"
+
+[dependencies]
+glam = { version = "0.30.9", features = ["std"] }
+itertools = "0.14.0"
+hashbrown = "0.16.1"
+rustc-hash = "2.1.1"
+
+[dev-dependencies]
+rand = "0.9.2"
+divan = "0.1.21"
+
+[features]
+default = []
+tracing = ["dep:tracing"]
+
+[dependencies.tracing]
+version = "0.1.43"
+optional = true
+
+[[bench]]
+name = "polytope_benchmarks"
+harness = false
+
+# Fast dev builds - optimize dependencies but keep local code debuggable
+[profile.dev]
+opt-level = 0
+
+[profile.dev.package."*"]
+opt-level = 3
+
+# Maximum optimization for release
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+panic = "abort"
+
+# Benchmarks - same as release but keep debug info for profiling
+[profile.bench]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+debug = true
+
+# For profiling with perf/flamegraph - release speed with debug symbols
+[profile.release-with-debug]
+inherits = "release"
+strip = false
+debug = true
+panic = "unwind"
