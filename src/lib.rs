@@ -78,7 +78,6 @@
 
 mod incremental_hull;
 mod incremental_polytope;
-mod spatial_hash;
 
 pub use incremental_polytope::{
     AddPlaneResult, Edge, EdgeIdx, HalfSpace, IncrementalPolytope, PlaneIdx, RemovePlaneResult,
@@ -86,8 +85,6 @@ pub use incremental_polytope::{
 };
 
 pub use incremental_hull::IncrementalHull;
-
-pub use spatial_hash::SpatialHash;
 
 /// Re-export glam types for convenience
 pub mod math {
